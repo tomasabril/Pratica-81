@@ -6,7 +6,7 @@
 
 /**
  *
- * @author tomas
+ * @author Tomás Abril
  */
 public class Jogador {
 
@@ -34,9 +34,6 @@ public class Jogador {
 
 	@Override
 	public String toString() {
-// TODO: retona um String com as coordenadas do ponto no formato (x, y),
-// por exemplo, (1,11, 2,22) para um ponto com coordenadas x = 1.11 e
-// y = 2.22
 		return "(" + numero + ", " + nome + ", " + posicao + ")";
 	}
 }

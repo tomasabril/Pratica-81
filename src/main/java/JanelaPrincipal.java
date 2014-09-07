@@ -18,7 +18,7 @@ import javax.swing.JFileChooser;
  */
 /**
  *
- * @author Tomás Abril
+ * @author Tomás Abril <>
  */
 public class JanelaPrincipal extends javax.swing.JFrame {
 
@@ -49,6 +49,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 jLabel2 = new javax.swing.JLabel();
                 jLabel3 = new javax.swing.JLabel();
                 jButton1 = new javax.swing.JButton();
+                jScrollPane2 = new javax.swing.JScrollPane();
+                jTable2 = new javax.swing.JTable();
                 jMenuBar1 = new javax.swing.JMenuBar();
                 jMenu1 = new javax.swing.JMenu();
                 jMenuItem1 = new javax.swing.JMenuItem();
@@ -87,6 +89,25 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                                 jButton1ActionPerformed(evt);
                         }
                 });
+
+                jTable2.setModel(new javax.swing.table.DefaultTableModel(
+                        new Object [][] {
+                                {null, null, null},
+                                {null, null, null},
+                                {null, null, null},
+                                {null, null, null},
+                                {null, null, null},
+                                {null, null, null},
+                                {null, null, null},
+                                {null, null, null},
+                                {null, null, null},
+                                {null, null, null}
+                        },
+                        new String [] {
+                                "numero", "nome", "posição"
+                        }
+                ));
+                jScrollPane2.setViewportView(jTable2);
 
                 jMenu1.setText("Arquivo");
 
@@ -146,13 +167,15 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                                                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                                                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                         .addComponent(jTextField1)
                                                         .addComponent(jTextField2)
                                                         .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)))
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jButton1)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jButton1)
+                                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap())
                 );
@@ -164,16 +187,18 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel1))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel3))
-                                .addGap(32, 32, 32)
+                                .addGap(18, 18, 18)
                                 .addComponent(jButton1)
-                                .addContainerGap(141, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
 
                 pack();
@@ -186,6 +211,19 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
 		// menu > exibir
+		for(int j=0; j<10; j++){
+			jTable2.setValueAt("", j, 0);
+			jTable2.setValueAt("", j, 1);
+			jTable2.setValueAt("", j, 2);
+		}
+		int i=0;
+		for(Jogador j : jogadores){
+			jTable2.setValueAt(j.getNumero(), i, 0);
+			jTable2.setValueAt(j.getNome(), i, 1);
+			jTable2.setValueAt(j.getPosicao(), i, 2);
+			i++;
+		}
+		
         }//GEN-LAST:event_jMenuItem4ActionPerformed
 
         private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -211,15 +249,13 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 				// What to do with the file, e.g. display it in a TextArea
 				//textarea.read(new FileReader(file.getAbsolutePath()), null);
 				arquivo = new BufferedReader(new FileReader(file));
-				
+
 				String linha = arquivo.readLine();
 
 				while (linha != null) {
 					String[] partes = linha.split(",");
-					jogadores.add( new Jogador( Integer.parseInt(partes[0].trim()), partes[1].trim(), partes[2].trim() ) );
+					jogadores.add(new Jogador(Integer.parseInt(partes[0].trim()), partes[1].trim(), partes[2].trim()));
 
-
-					
 					linha = arquivo.readLine();
 				}
 			} catch (IOException ex) {
@@ -236,10 +272,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 		try {
 			salvar = new BufferedWriter(new FileWriter("saida.csv"));
 			for (Jogador j : jogadores) {
-				salvar.write(j.getNome() + ", " + j.getNumero() + ", " + j.getPosicao());
+				salvar.write(j.getNumero() + ", " + j.getNome() + ", " + j.getPosicao());
+				salvar.newLine();
 			}
-			salvar.newLine();
 			salvar.close();
+
 		} catch (IOException ex) {
 			Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -300,6 +337,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         private javax.swing.JMenuItem jMenuItem3;
         private javax.swing.JMenuItem jMenuItem4;
         private javax.swing.JMenuItem jMenuItem5;
+        private javax.swing.JScrollPane jScrollPane2;
+        private javax.swing.JTable jTable2;
         private javax.swing.JTextField jTextField1;
         private javax.swing.JTextField jTextField2;
         private javax.swing.JTextField jTextField3;
