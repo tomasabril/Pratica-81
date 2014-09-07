@@ -1,12 +1,15 @@
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -38,6 +41,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
         private void initComponents() {
 
+                fileChooser = new javax.swing.JFileChooser();
                 jTextField1 = new javax.swing.JTextField();
                 jTextField2 = new javax.swing.JTextField();
                 jTextField3 = new javax.swing.JTextField();
@@ -53,7 +57,12 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 jMenuItem4 = new javax.swing.JMenuItem();
                 jMenuItem5 = new javax.swing.JMenuItem();
 
+                fileChooser.setCurrentDirectory(new java.io.File("C:\\Users\\tomas\\Documents\\GitHub\\Pratica-81"));
+                fileChooser.setDialogTitle("Escolha o arquivo");
+                fileChooser.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+                setTitle("Exemplo grava abre arquivo");
 
                 jTextField1.setText("1");
 
@@ -194,7 +203,31 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
 		// Menu > abrir
 		BufferedReader arquivo;
-		File
+
+		int returnVal = fileChooser.showOpenDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			try {
+				// What to do with the file, e.g. display it in a TextArea
+				//textarea.read(new FileReader(file.getAbsolutePath()), null);
+				arquivo = new BufferedReader(new FileReader(file));
+				
+				String linha = arquivo.readLine();
+
+				while (linha != null) {
+					String[] partes = linha.split(",");
+					jogadores.add( new Jogador( Integer.parseInt(partes[0].trim()), partes[1].trim(), partes[2].trim() ) );
+
+
+					
+					linha = arquivo.readLine();
+				}
+			} catch (IOException ex) {
+				System.out.println("problem accessing file" + file.getAbsolutePath());
+			}
+		} else {
+			//System.out.println("File access cancelled by user.");
+		}
         }//GEN-LAST:event_jMenuItem2ActionPerformed
 
         private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -216,6 +249,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
 		// menu > sair
+		System.exit(0);
         }//GEN-LAST:event_jMenuItem5ActionPerformed
 
 	/**
@@ -254,6 +288,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 	}
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
+        private javax.swing.JFileChooser fileChooser;
         private javax.swing.JButton jButton1;
         private javax.swing.JLabel jLabel1;
         private javax.swing.JLabel jLabel2;
